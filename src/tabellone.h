@@ -5,14 +5,18 @@
 #ifndef MONOPOLY_PROGETTO__SENZA_BUG__TABELLONE_H
 #define MONOPOLY_PROGETTO__SENZA_BUG__TABELLONE_H
 
-#endif //MONOPOLY_PROGETTO__SENZA_BUG__TABELLONE_H
-
-#ifndef TABELLONE_H
-#define TABELLONE_H
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "strutture.h"
+#include "caselle.h"
+#include "macro.h"
 
-Casella* caricaTabellone(const char *filename);
+#define NOME_FILE "tabellone.txt"
+
+//ho definito cosa fanno le subroutine nel file.c
+
+Casella* caricaTabellone();
 void stampaTabellone(Casella *start);
 
-#endif
+#endif //MONOPOLY_PROGETTO__SENZA_BUG__TABELLONE_H
+

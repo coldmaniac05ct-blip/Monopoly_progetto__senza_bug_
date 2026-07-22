@@ -2,15 +2,15 @@
 // Created by Administrator on 10/05/2026.
 //
 
-#include "tabellone.h"
-#include <stdio.h>
-#include <stdlib.h>
+//ATTENZIONE:le subroutines sono riportate nei file header appositi
 
-Casella* caricaTabellone(const char *filename) {
-    FILE *fp = fopen(filename, "r");
-    if (!fp) {
-        printf("Errore: impossibile aprire %s\n", filename);
-        return NULL;
+#include "tabellone.h"
+
+Casella* caricaTabellone() {
+    FILE *fp = fopen(NOME_FILE, "r");
+    if (fp == NULL) {
+        printf("Errore: impossibile aprire %s\n");
+        exit(EXIT_FAILURE);
     }
 
     Casella *start = NULL;
@@ -58,21 +58,4 @@ void stampaTabellone(Casella *start) {
         curr = curr->next;
         i++;
     } while (curr != start);
-}
-Casella *inserisciInCoda(Casella *head, Casella *nuova) {
-    if (!head) {
-        nuova->next = nuova;
-        nuova->prev = nuova;
-        return nuova;
-    }
-
-    Casella *tail = head->prev;
-
-    tail->next = nuova;
-    nuova->prev = tail;
-
-    nuova->next = head;
-    head->prev = nuova;
-
-    return head;
 }

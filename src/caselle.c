@@ -2,12 +2,15 @@
 // Created by Administrator on 10/05/2026.
 //
 
+//ATTENZIONE:le subroutines sono riportate nei file header appositi
+
 #include "caselle.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-Casella *creaCasella(char *nome, int tipo, int colore, int costo) {
+Casella *creaCasella(char *nome, int tipo, int colore, int costo) {//creo le caselle, ognuna di esse
+    //dovrà avere un nome, un tipo, un colore e un costo
     Casella *c = malloc(sizeof(Casella));
     if (!c) return NULL;
 
@@ -26,7 +29,8 @@ Casella *creaCasella(char *nome, int tipo, int colore, int costo) {
     return c;
 }
 
-Casella *inserisciInCoda(Casella *head, Casella *nuova) {
+Casella *inserisciInCoda(Casella *head, Casella *nuova) {//è una funzione ricorsiva di tipo head-tail,
+    //serve per capire su che casella ci troviamo
     if (!head) {
         nuova->next = nuova;
         nuova->prev = nuova;
@@ -44,43 +48,7 @@ Casella *inserisciInCoda(Casella *head, Casella *nuova) {
     return head;
 }
 
-Casella *caricaTabellone(const char *filename) {
-    FILE *fp = fopen(filename, "r");
-    if (!fp) {
-        printf("Errore apertura file tabellone.txt\n");
-        return NULL;
-    }
-
-    Casella *tabellone = NULL;
-
-    int id, tipo, colore, costo;
-    char nome[DIM_NOME];
-
-    while (fscanf(fp, "%d %30s %d %d %d",
-                  &id, nome, &tipo, &colore, &costo) == 5) {
-
-        Casella *c = creaCasella(nome, tipo, colore, costo);
-        tabellone = inserisciInCoda(tabellone, c);
-                  }
-
-    fclose(fp);
-    return tabellone;
-}
-
-void stampaTabellone(Casella *head) {
-    if (!head) return;
-
-    Casella *curr = head;
-    int i = 0;
-
-    do {
-        printf("%2d) %-30s Tipo=%d Colore=%d Costo=%d\n",
-               i, curr->nome, curr->tipo, curr->colore, curr->costo);
-        curr = curr->next;
-        i++;
-    } while (curr != head);
-}
-void testTabellone(Casella *head) {
+void testTabellone(Casella *head) {//faccio un test di prova per vedere se funziona a codice finito, in breve voglio capire se si avvia
     if (!head) {
         printf("Tabellone vuoto.\n");
         return;
@@ -105,7 +73,7 @@ void testTabellone(Casella *head) {
 
     } while (curr != head);
 
-    printf("\nTotale caselle: %d\n", count);
+    printf("\nTotale caselle: %d\n", count);//qua controllo le caselle per vedere se sono state generate correttamente
 
     if (count == 40)
         printf("OK: Il tabellone contiene 40 caselle.\n");

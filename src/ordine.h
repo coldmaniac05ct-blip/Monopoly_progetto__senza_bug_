@@ -6,3 +6,7 @@
 #define MONOPOLY_PROGETTO__SENZA_BUG__ORDINE_H
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__ORDINE_H
+
+#include "macro.h"
+
+//ho definito cosa fanno le subroutine nel file.c

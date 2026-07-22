@@ -5,36 +5,14 @@
 #ifndef MONOPOLY_PROGETTO__SENZA_BUG__STRUTTURE_H
 #define MONOPOLY_PROGETTO__SENZA_BUG__STRUTTURE_H
 
-#endif //MONOPOLY_PROGETTO__SENZA_BUG__STRUTTURE_H
-#ifndef MONOPOLY_STRUTTURE_H
-#define MONOPOLY_STRUTTURE_H
-
-#endif //MONOPOLY_STRUTTURE_H
-
-#ifndef STRUTTURE_H
-#define STRUTTURE_H
-
 #include <stdbool.h>
+#include "caselle.h"
+#include "effetti.h"
+#include "macro.h"
 
-// ENUMERAZIONI
+//ho segnato qui tutte le strutture tranne quella del giocatore perchè sennò mi incasinavo
 
-typedef enum {
-    NESSUNO, AULA, MENSA, PARCHEGGIO, ABBONAMENTO, VIA, BUG,
-    VAI_BATCAVERNA, BATCAVERNA
-} TipoCasella;
-
-typedef enum {
-    NESSUN_COLORE, MARRONE, CELESTE, FUCSIA, ARANCIONE,
-    ROSSO, GIALLO, VERDE, BLU
-} ColoreCasella;
-
-typedef enum {
-    MOUSE, TASTIERA, CAVO_HDMI, PROIETTORE
-} Segnaposto;
-
-typedef enum {
-    NORMALE, SPECIALE
-} TipoCarta;
+// STRUTTURE
 
 typedef enum {
     PAGA_QUALCOSA,
@@ -45,10 +23,14 @@ typedef enum {
     ESCI,
     VAI_INDIETRO,
     VAI_AVANTI,
-    REGALA
+    REGALA,
 } Azione;
 
-// STRUTTURE
+typedef enum {
+    NORMALE,
+    SPECIALE,
+} TipoCarta;
+
 
 typedef struct {
     Azione azione;
@@ -57,37 +39,14 @@ typedef struct {
 } Effetto;
 
 typedef struct carta {
-    char nome[32];
-    char descrizione[256];
+    char nome[LUNGHEZZA_STRINGA];//definito in macro.h
+    char descrizione[DESCRIZIONE];//guarda macro.h
     TipoCarta tipo;
     int numero_effetti;
     Effetto *effetti;
     struct carta *next;
 } Carta;
 
-struct giocatore; // forward declaration
+#endif //MONOPOLY_PROGETTO__SENZA_BUG__STRUTTURE_H
 
-typedef struct casella {
-    char nome[32];
-    TipoCasella tipo;
-    ColoreCasella colore;
-    int costo;
-    int sedie;
-    bool scrivania;
-    struct giocatore *occupante;
-    struct casella *next;
-    struct casella *prev;
-} Casella;
-
-typedef struct giocatore {
-    char nome[32];
-    Segnaposto segnaposto;
-    int cfu;
-    int turni_batcaverna;
-    bool salta_turno;
-    int numero_aule_mense;
-    Casella *posizione;
-    Carta *carte_uscita;
-} Giocatore;
-
-#endif
+//ho definito cosa fanno le subroutine nel file.c

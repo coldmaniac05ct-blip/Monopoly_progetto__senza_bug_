@@ -20,4 +20,7 @@ add_executable(Monopoly_progetto__senza_bug_ main.c
         src/tabellone.c
         src/tabellone.h
         src/turni.c
-        src/turni.h)
+        src/turni.h
+        src/effetti.c
+        src/effetti.h
+        src/macro.h)

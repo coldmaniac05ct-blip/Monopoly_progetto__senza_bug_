@@ -6,3 +6,10 @@
 #define MONOPOLY_PROGETTO__SENZA_BUG__TURNI_H
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__TURNI_H
+
+#include "giocatore.h"
+#include "macro.h"
+
+//ho definito cosa fanno le subroutine nel file.c
+
+void turno(Giocatore *g);
