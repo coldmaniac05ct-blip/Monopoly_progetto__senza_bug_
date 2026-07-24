@@ -5,8 +5,6 @@
 #ifndef MONOPOLY_PROGETTO__SENZA_BUG__MENU_H
 #define MONOPOLY_PROGETTO__SENZA_BUG__MENU_H
 
-#include "macro.h"
-
 int menuIniziale();
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__MENU_H

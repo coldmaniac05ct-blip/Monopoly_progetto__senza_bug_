@@ -3,7 +3,7 @@
 //
 //Studente:Elisa Alessandra Cataldo (e.cataldo@studenti.unica.it)
 //Matricola:60/84/00112
-//Tipo Progetto:MEDIO
+//Tipo Progetto:BASE
 //Username Github:Cold Maniac
 //Github link: https://github.com/coldmaniac05ct-blip/Monopoly_progetto__senza_bug_
 //Necessità:NESSUNA
@@ -13,39 +13,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "src/carte.h"
-#include "src/caselle.h"
 #include "src/giocatore.h"
-#include "src/tabellone.h"
-#include "src/dadi.h"
-#include "src/effetti.h"
 #include "src/menu.h"
-#include "src/strutture.h"
-#include "src/turni.h"
-#include "src/giocatore.c"
+#include "src/partita.h"
+#include "src/tabellone.h"
 
-//sub partita
-void nuovaPartita(Giocatore **giocatori, int *numGiocatori, Casella *tabellone);//stiamo iniziando una nuova partita quindi ci serve una funzione
-//che non restituisca valori già dichiarati precedentemente
-
-
-//inizio codice, qua registro la partita:
-void nuovaPartita(Giocatore **giocatori, int *numGiocatori, Casella *tabellone){//sub 2
-    printf("Quanti giocatori? (2-4): "); //indico il numero massimo e minimo di giocatori registrabili
-    scanf("%d", numGiocatori);
-
-    *giocatori = creaGiocatori(*numGiocatori);
-
-    // posiziona tutti sul VIA
-    Casella *via = tabellone;
-    while (via->tipo != VIA)
-        via = via->next;
-
-    for (int i = 0; i < *numGiocatori; i++)
-        (*giocatori)[i].posizione = via;
-
-    printf("Partita inizializzata!\n");
-}//non necessita di return alla fine poiché di tipo void
+int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora giocarci
+    int n;
+    menuIniziale();   // la funzione è definita in menu.c, serve a stampare a schermo il menu
 
 
+        printf("Quanti giocatori partecipano? (2-4): ");
+        scanf("%d", &n);
 
+        while (n < 2 || n > 4) {
+            printf("Valore non valido. Inserisci 2-4: ");
+            scanf("%d", &n);
+        }
+
+
+        Giocatore *giocatori = creaGiocatori(n);
+
+    printf("\nPartita pronta!\n");
+
+        ordinaGiocatori(giocatori, n);
+
+        Casella *tabellone = caricaTabellone("tabellone.txt");
+
+        // Imposta posizione iniziale (VIA)
+        for (int i = 0; i < n; i++) {
+            giocatori[i].posizione = tabellone;
+        }
+
+    //qui devo inserire un ciclo per fare tirare i dadi all'infinito e il menù di gioco a gioco già iniziato
+
+
+        liberaGiocatori(giocatori);
+
+        return 0;
+
+
+}

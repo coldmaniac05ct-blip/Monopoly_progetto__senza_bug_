@@ -5,11 +5,12 @@
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
 #include "tabellone.h"
+#include "giocatore.h"
 
 Casella* caricaTabellone() {
     FILE *fp = fopen(NOME_FILE, "r");
     if (fp == NULL) {
-        printf("Errore: impossibile aprire %s\n");
+        printf("Errore: impossibile aprire %s\n");//in caso di errore avvisa che non si riesce ad aprire il tabellone
         exit(EXIT_FAILURE);
     }
 
@@ -27,7 +28,6 @@ Casella* caricaTabellone() {
 
         c->sedie = 0;
         c->scrivania = false;
-        c->occupante = NULL;
         c->next = NULL;
         c->prev = NULL;
 

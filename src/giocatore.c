@@ -5,73 +5,120 @@
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
 #include "giocatore.h"
-#include "dadi.c"
+#include "dado.h"
+#include "casella.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <time.h>
 
-Giocatore* creaGiocatori(int n) {//inizio subroutine
+// Funzione: stampaGiocatore
+
+void stampaGiocatore(Giocatore g) {
+    printf("Giocatore: %s\n", g.nome);
+    printf("CFU: %d\n", g.cfu);
+    printf("Turni in caverna: %d\n", g.turniCaverna);
+    printf("Salta turno: %d\n", g.saltaTurno);
+    printf("Aule/Mense possedute: %d\n", g.numAule);
+    printf("\n");
+}
+
+
+// Funzione: creaGiocatori
+
+Giocatore* creaGiocatori(int n) {
+
     Giocatore *g = malloc(sizeof(Giocatore) * n);
 
     for (int i = 0; i < n; i++) {
-        printf("Inserisci nome giocatore %d: ", i + 1);//chiedo al giocatore di inserire il proprio nome
-        //e scrivo i+1 così che il mio compilatore chieda tot nomi in base a quanti sono i giocatori
-        scanf("%s", g[i].nome);//il nome è un tipo stringa quindi %s
+        printf("Inserisci il nome del giocatore %d: ", i + 1);
+        scanf("%s", g[i].nome);
 
         g[i].cfu = 3000;
         g[i].turniCaverna = 0;
         g[i].saltaTurno = 0;
         g[i].numAule = 0;
-        g[i].posizione = NULL;
         g[i].carte = NULL;
+        g[i].posizione = NULL; // la imposterai dopo
     }
 
     return g;
 }
 
-void liberaGiocatori(Giocatore *g) {
-    free(g);
-}
 
 
-void ordinaGiocatori(Giocatore *g, int n) {//stabilisce in che ordine tireranno il dado i giocatori
-    int *tiri = malloc(sizeof(int) * n);
+// Funzione: ordinaGiocatori
 
+void ordinaGiocatori(Giocatore *g, int n) {
+
+    srand(time(NULL));
+
+    int valori[4];
+
+    printf("\n--- Determinazione ordine di gioco ---\n");
+
+    // Primo tiro
     for (int i = 0; i < n; i++) {
-        tiri[i] = tiraDado();
-        printf("%s tira: %d\n", g[i].nome, tiri[i]);
+        valori[i] = tiraDado();
+        printf("%s tira il dado e ottiene %d\n", g[i].nome, valori[i]);
     }
 
-    //bubble sort decrescente per gestire il tiro dei dadi: mi serve per ordinare
-    //un array confrontando ripetutamente gli elementi vicini e scambiandoli se sono fuori ordine
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (tiri[j] < tiri[j + 1]) {
-                int tmp = tiri[j];
-                tiri[j] = tiri[j + 1];
-                tiri[j + 1] = tmp;
+    // Gestione pareggi
+    int pareggio = 1;
+    while (pareggio) {
+        pareggio = 0;
 
-                Giocatore temp = g[j];
-                g[j] = g[j + 1];
-                g[j + 1] = temp;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+
+                if (valori[i] == valori[j]) {
+                    pareggio = 1;
+
+                    printf("\nPareggio tra %s e %s! Ritirano...\n",
+                           g[i].nome, g[j].nome);
+
+                    valori[i] = tiraDado();
+                    valori[j] = tiraDado();
+
+                    printf("%s ritira e ottiene %d\n", g[i].nome, valori[i]);
+                    printf("%s ritira e ottiene %d\n", g[j].nome, valori[j]);
+                }
             }
         }
     }
 
-    free(tiri);
-}
-void muoviGiocatore(Giocatore *g, int passi) {//sub 3, qua dichiaro una subroutine
-    //muoviGiocatore per fare spostare la pedina sul tabellone di tot caselle
-    for (int i = 0; i < passi; i++) {
-        g->posizione = g->posizione->next;
+    // Ordina in ordine decrescente
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (valori[j] > valori[i]) {
 
-        if (g->posizione->tipo == VIA)
-            g->cfu += 200;
+                int tmp = valori[i];
+                valori[i] = valori[j];
+                valori[j] = tmp;
+
+                Giocatore temp = g[i];
+                g[i] = g[j];
+                g[j] = temp;
+            }
+        }
+    }
+
+    printf("\n--- Ordine di gioco stabilito ---\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d) %s (dado: %d)\n", i + 1, g[i].nome, valori[i]);
     }
 }
-void stampaGiocatore(Giocatore g) {//questa subroutine è di tipo void e mi consente di stampare i dati del giocatore,
-    //quali nome, cfu e in che posizione si trova sul tabellone
-    printf("Giocatore: %s\n", g.nome);
-    printf("CFU: %d\n", g.cfu);
-    printf("Posizione: %s\n", g.posizione->nome);
+
+
+// Funzione: muoviGiocatore
+
+void muoviGiocatore(Giocatore *g, int passi) {
+    for (int i = 0; i < passi; i++) {
+        g->posizione = g->posizione->next;
+    }
+}
+
+
+// Funzione: liberaGiocatori
+void liberaGiocatori(Giocatore *g) {
+    free(g);
 }

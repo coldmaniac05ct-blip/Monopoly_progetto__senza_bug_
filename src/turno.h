@@ -7,8 +7,7 @@
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__TURNI_H
 
-#include "giocatore.h"
-#include "macro.h"
+#include "casella.h"
 
 //ho definito cosa fanno le subroutine nel file.c
 

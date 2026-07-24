@@ -5,8 +5,23 @@
 #ifndef MONOPOLY_PROGETTO__SENZA_BUG__CARTE_H
 #define MONOPOLY_PROGETTO__SENZA_BUG__CARTE_H
 
-#include "strutture.h"
+#include "effetto.h"
 #include "macro.h"
+
+typedef enum {
+    NORMALE,
+    SPECIALE,
+} TipoCarta;
+
+typedef struct carta {
+    char nome[LUNGHEZZA_STRINGA];//definito in macro.h
+    char descrizione[DESCRIZIONE];//guarda macro.h
+    TipoCarta tipo;
+    int numero_effetti;
+    Effetto *effetti;
+    struct carta *next;
+} Carta;
+
 
 // Carica il mazzo da file
 Carta* caricaMazzo(const char *filename);

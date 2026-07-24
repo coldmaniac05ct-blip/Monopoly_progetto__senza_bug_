@@ -7,9 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "strutture.h"
-#include "caselle.h"
-#include "macro.h"
+#include "casella.h"
 
 #define NOME_FILE "tabellone.txt"
 

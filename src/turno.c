@@ -4,13 +4,15 @@
 
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
-#include "turni.h"
-#include <stdio.h>
+#include "turno.h"
+#include "casella.h"
+#include "dado.h"
 #include "giocatore.h"
-#include "giocatore.c"
+
+#include <stdio.h>
 
 void turno(Giocatore *g) {
-    printf("\n--- Turno di %s ---\n", g->nome);//annuncio a chi tocca grazie alla printf, il nome del giocatore è un tipo stringa quindi
+    printf("\nTurno di: %s\n", g->nome);//annuncio a chi tocca grazie alla printf, il nome del giocatore è un tipo stringa quindi
     //scrivo %s e faccio sì che g (giocatore) punti a nome così il compilatore sa da dove ricavare il nome
 
     printf("CFU: %d\n", g->cfu);//stessa cosa faccio qua, però uso %d perchè i CFU vengono dichiarati come un numero

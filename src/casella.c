@@ -4,7 +4,7 @@
 
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
-#include "caselle.h"
+#include "casella.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

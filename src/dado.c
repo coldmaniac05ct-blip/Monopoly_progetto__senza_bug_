@@ -4,7 +4,7 @@
 
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
-#include "dadi.h"
+#include "dado.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,12 +32,8 @@ int dadi(){
     //fare si che dia un numero da 0 a 5 e metto +1 per aggiustare i conti da 1 a 6
 
 }
+// Funzione: tiraDado (privata)
 
-int tiraDado(void){//sub 5 (le trovi dichiarate in ordine nel main)
-//da iniziare
-
-
-
-
-
+int tiraDado() {
+    return (rand() % 6) + 1;
 }

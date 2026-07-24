@@ -7,31 +7,32 @@
 
 #include <stdbool.h>
 #include "macro.h"
+#include "giocatore.h"
 
 //definisco le strutture
 
-typedef enum {
-    NESSUNO, AULA, MENSA, PARCHEGGIO, ABBONAMENTO, VIA, BUG,
-    VAI_BATCAVERNA, BATCAVERNA
-} TipoCasella;
+
 
 typedef enum {
     NESSUN_COLORE, MARRONE, CELESTE, FUCSIA, ARANCIONE,
     ROSSO, GIALLO, VERDE, BLU
 } ColoreCasella;
 
-typedef struct casella {
-    char nome[DIM_NOME];//evito di usare magic numbers
+typedef struct  Giocatore giocatore;
+
+struct casella{
+    char nome[LUNGHEZZA_STRINGA];//evito di usare magic numbers
     TipoCasella tipo;
     ColoreCasella colore;
     int costo;
     int sedie;
     bool scrivania;
-    struct giocatore *proprietario;
+    Giocatore *proprietario;
     struct casella *next;
     struct casella *prev;
-    void * occupante;
-} Casella;
+};
+
+typedef struct casella Casella;
 
 //ho definito cosa fanno le subroutine nel file.c
 

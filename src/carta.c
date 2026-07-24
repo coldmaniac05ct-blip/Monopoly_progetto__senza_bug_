@@ -4,8 +4,11 @@
 
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
+#include "carta.h"
+#include "macro.h"
+#include "casella.h"
 #include "tabellone.h"
-#include "carte.h"
+#include "effetto.h"
 
 #include <stdio.h>
 #include <stdlib.h>

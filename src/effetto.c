@@ -4,6 +4,7 @@
 
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
-#include "effetti.h"
+#include "effetto.h"
 
-//da iniziare
+//QUA TECNICAMENTE NON CI VA NULLA-RICONTROLLARE LE SLIDES APPENA PUOI
+

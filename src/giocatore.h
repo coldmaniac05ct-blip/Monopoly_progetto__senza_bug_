@@ -2,12 +2,15 @@
 // Created by Administrator on 10/05/2026.
 //
 
+
 #ifndef MONOPOLY_PROGETTO__SENZA_BUG__GIOCATORE_H
 #define MONOPOLY_PROGETTO__SENZA_BUG__GIOCATORE_H
 
-#include "caselle.h"
-#include "carte.h"
+
 #include "macro.h"
+#include "carta.h"
+
+typedef struct casella Casella;
 
 typedef struct {
     char nome[LUNGHEZZA_STRINGA]; //31 caratteri utili è esattamente quello richiesto dalle specifiche per i nomi (coerenza con il resto del progetto).
@@ -18,6 +21,12 @@ typedef struct {
     Casella *posizione;  //Puntatore alla casella in cui si trova il giocatore sul tabellone (lista circolare di Casella).
     Carta *carte;  //Lista di carte in possesso del giocatore (es. carte ESCI dalla caverna).//
 } Giocatore;
+
+void stampaGiocatore(Giocatore g);
+void muoviGiocatore(Giocatore *g, int passi);
+void ordinaGiocatori(Giocatore *g, int n);
+void liberaGiocatori(Giocatore *g);
+Giocatore* creaGiocatori(int n);
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__GIOCATORE_H
 
