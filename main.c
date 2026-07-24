@@ -46,7 +46,7 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
         }
 
     //qui devo inserire un ciclo per fare tirare i dadi all'infinito e il menù di gioco a gioco già iniziato
-
+    avviaPartita(giocatori, n, tabellone);
 
         liberaGiocatori(giocatori);
 
