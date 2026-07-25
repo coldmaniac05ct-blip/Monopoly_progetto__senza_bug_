@@ -67,6 +67,7 @@ Carta* caricaMazzo(const char *filename)
     }
 }
 
+
 void mescolaMazzo(Carta **start_mazzo) {//mescolo il mazzo, quindi la mia funzione
     //dovrà contare quante carte ho estratto finora e quali
     if (!(*start_mazzo)) return;
@@ -102,6 +103,7 @@ void mescolaMazzo(Carta **start_mazzo) {//mescolo il mazzo, quindi la mia funzio
 
     free(array);
 }
+
 
 Carta* pescaCarta(Carta **start_mazzo) {//faccio pescare una carta al giocatore
     if (!(*start_mazzo)) return NULL;

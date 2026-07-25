@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "src/giocatore.h"
 #include "src/menu.h"
@@ -19,10 +20,13 @@
 #include "src/tabellone.h"
 #include "src/salvataggio.h"
 
+
 int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora giocarci
     int n;
     int scelta = menuIniziale();   // la funzione è definita in menu.c, serve a stampare a schermo il menu
     Giocatore *giocatori = NULL;
+
+
 
     if (scelta == 2) {//il problema maggiore era sistemare il menù di gioco, quindi se la scelta dal menù è 2 il mio compilatore dovrà
         //occuparsi di caricare una partita e poi iniziare il gioco
@@ -59,16 +63,27 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
     printf("\nPartita pronta!\n");//informo che la partita è pronta per essere giocata e avvio il gioco partendo
     //dall'ordine dei giocatori e poi passo al caricamento del tabellone e del menù di gioco
 
+if (scelta == 4){//ci devo lavorare su perchè nel momento in cui la carta viene pescata mi dà null o stampa l'intero mazzo
+    caricaMazzo("mazzo.txt"); //se la scelta è 4 allora dovrà farmi leggere una carta dal mazzo
+    Carta *mazzo = NULL;
+    srand(time(NULL));
 
+    mescolaMazzo(&mazzo);
 
+}
         ordinaGiocatori(giocatori, n);
 
         Casella *tabellone = caricaTabellone("tabellone.txt");
+
+
 
         // Imposta posizione iniziale (VIA)
         for (int i = 0; i < n; i++) {
             giocatori[i].posizione = tabellone;
         }
+
+
+
 
     avviaPartita(giocatori, n, tabellone);//avvia una partita nuova
 

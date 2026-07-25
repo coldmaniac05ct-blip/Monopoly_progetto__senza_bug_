@@ -34,7 +34,7 @@ Casella* caricaTabellone() {//questa funzione si occupa di caricare il tabellone
         c->next = NULL;
         c->prev = NULL;
 
-        if (!start) {//serve a scorrere il tabellone e quindi le caselle ad inzio partita
+        if (!start) {//serve a scorrere il tabellone e quindi le caselle a inizio partita
             start = c;
         } else {
             prev->next = c;
@@ -56,8 +56,10 @@ void stampaTabellone(Casella *start) {//stampa il tabellone a schermo, quindi st
     int i = 0;
 
     do {
-        printf("[%2d] %-30s Tipo=%d Colore=%d Costo=%d\n",
-               i, curr->nome, curr->tipo, curr->colore, curr->costo);
+               printf(curr->nome, curr->tipo, curr->colore, curr->costo);//nella printf non scrivo tipo, nome ecc
+        //manualmente perchè altrimenti andrebbe a leggere il dato sbagliato stampando a
+        //schermo 2 volte ogni opzione disponibile secondo tabellone.txt
+        //(mi è successo quindi ho dovuto fixare perchè leggeva ad esempio Tipo = 0 Nome = 0 e cosi via per ogni casella)
         curr = curr->next;
         i++;
     } while (curr != start);

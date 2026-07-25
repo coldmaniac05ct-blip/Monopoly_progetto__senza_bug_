@@ -13,8 +13,8 @@ static int menuTurno(Giocatore *g) {//uso static int per fare si che il menu di 
 
     printf("\n--- Turno di %s ---\n", g->nome);
     printf("1) Tira i dadi\n");
-    printf("2) Mostra giocatori\n");
-    printf("3) Mostra tabellone\n");
+    printf("2) Mostra dati dei giocatori\n");//mostra i dati
+    printf("3) Mostra tabellone\n");//mostra le caselle del tabellone
     printf("4) Mostra carte\n");
     printf("5) Salva partita\n");
     printf("0) Esci dal gioco\n");
@@ -33,6 +33,7 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {//questa funzione si
     int turno = 0;//inizializzo in modo consono i turni
     int finePartita = 0;
     Giocatore * giocatori =NULL;
+    Carta *mazzo = NULL;
 
     while (!finePartita) {
 
@@ -48,6 +49,7 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {//questa funzione si
                 int dado = (rand() % 6) + 1;
                 printf("%s tira il dado: %d\n", corrente->nome, dado);
                 muoviGiocatore(corrente, dado);
+                    //attenzione qua non segna su che casella sei, va sistemato!
                 break;
             }
 
@@ -61,9 +63,15 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {//questa funzione si
                 stampaTabellone(tabellone);
                 break;
 
-            case 4:
-                printf("Le carte non sono ancora implementate.\n");//ancora non ho implementato le carte
-                break;
+            case 4://si occupa di fare pescare una carta in modo randomico al giocatore
+            //da controllare!
+            Carta *carta = pescaCarta(&mazzo);
+            printf("Hai pescato: %s\n", carta->nome);
+            if (mazzo == NULL) {
+                printf("ERRORE: mazzo non caricato!\n");
+            }
+
+            break;
 
             case 5:
             printf("Partita salvata!\n");// salva la partita tramite i file presenti in salvataggio.h,
