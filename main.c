@@ -25,7 +25,7 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
     Giocatore *giocatori = NULL;
 
     if (scelta == 2) {//il problema maggiore era sistemare il menù di gioco, quindi se la scelta dal menù è 2 il mio compilatore dovrà
-        //occuparsi di caricare una partita e poi inziare il gioco
+        //occuparsi di caricare una partita e poi iniziare il gioco
         caricaPartita(&giocatori, &n,caricaTabellone("tabellone.txt"));//carica la partita e poi i giocatori
     }
 
