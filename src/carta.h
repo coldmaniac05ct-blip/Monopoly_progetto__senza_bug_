@@ -39,8 +39,7 @@ void inserisciInFondo(Carta **start_mazzo, Carta *c);
 void stampaMazzo(Carta *start_mazzo);
 //funzione stampaMazzo, stampa il mazzo quindi uso un tipo void
 
-void mescolaMazzo(Carta **head);
-Carta* pescaCarta(Carta **head);
-void inserisciInFondo(Carta **head, Carta *c);
+void mescolaMazzo(Carta **head);//mescola il mazzo randomicamente
+Carta* pescaCarta(Carta **head);//fa pescare una carta al giocatore
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__CARTE_H
