@@ -29,6 +29,7 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {
 
     int turno = 0;
     int finePartita = 0;
+    Giocatore * giocatori =NULL;
 
     while (!finePartita) {
 
@@ -59,7 +60,8 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {
                 break;
 
             case 5:
-                printf("Salvataggio non ancora implementato.\n");
+            printf("Partita salvata!\n");
+            salvaPartita(giocatori, n, tabellone);
                 break;
 
             case 0:
@@ -74,4 +76,29 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {
         // passa al giocatore successivo
         turno = (turno + 1) % n;
     }
+}
+
+void caricaPartita(Giocatore **g, int *n, Casella *tab) {
+    FILE *fp = fopen("savegame.sav", "rb");
+    if (!fp) return;
+
+    fread(n, sizeof(int), 1, fp);
+
+    *g = malloc(sizeof(Giocatore) * (*n));
+
+    for (int i = 0; i < *n; i++) {
+
+        // carica nome
+        fread((*g)[i].nome, sizeof(char), 32, fp);
+
+        // carica soldi
+        fread(&(*g)[i].cfu, sizeof(int), 1, fp);
+
+        // carica posizione
+        int pos;
+        fread(&pos, sizeof(int), 1, fp);
+        (*g)[i].posizione = casellaDaIndice(tab, pos);
+    }
+
+    fclose(fp);
 }

@@ -10,8 +10,11 @@
 
 #include "giocatore.h"
 #include "tabellone.h"
+#include "salvataggio.h"
+#include "casella.h"
 
 void avviaPartita(Giocatore *g, int n, Casella *tabellone);
+void caricaPartita(Giocatore **giocatori, int *numGiocatori, Casella *tabellone);
 
 #endif
 

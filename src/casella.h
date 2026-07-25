@@ -48,5 +48,8 @@ Casella *inserisciInCoda(Casella *head, Casella *nuova);
 void stampaTabellone(Casella *head);
 
 void testTabellone(Casella *head);
+Casella *casellaDaIndice(Casella *start, int index);
+int indiceCasella(Casella *start, Casella *target);
+
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__CASELLE_H

@@ -82,3 +82,35 @@ void testTabellone(Casella *head) {//faccio un test di prova per vedere se funzi
 
     printf("-----------------------\n\n");
 }
+
+int indiceCasella(Casella *start, Casella *target) {
+    Casella *curr = start;
+    int index = 0;
+
+    do {
+        if (curr == target)
+            return index;
+        curr = curr->next;
+        index++;
+    } while (curr != start);
+
+    return -1; // errore
+}
+
+Casella *casellaDaIndice(Casella *start, int index) {
+    Casella *curr = start;
+    int i = 0;
+
+    if (!start) return NULL;   // lista vuota
+
+    do {
+        if (i == index)
+            return curr;
+
+        curr = curr->next;
+        i++;
+    } while (curr != start);
+
+    // se arrivi qui, index è fuori range
+    return NULL;
+}

@@ -40,5 +40,6 @@ int menuIniziale() {
         scanf("%d", &scelta);
     }
 
+
     return scelta;
 }

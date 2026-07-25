@@ -25,4 +25,6 @@ add_executable(Monopoly_progetto__senza_bug_ main.c
         src/macro.h
         src/partita.c
         src/partita.h
+        src/salvataggio.c
+        src/salvataggio.h
 )
