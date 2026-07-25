@@ -23,7 +23,7 @@ bool fileEsiste(const char *filename) {//dichiaro il file di gioco, se esiste e 
     return false;
 }
 
-int menuIniziale() {
+int menuIniziale() {//serve a caricare il menù di gioco iniziale, quindi prima ancora che la partita abbia avuto inizio
     int scelta;
 
     printf("Benvenuti a Monopoli - PR1 EDITION!\n\n");
@@ -36,10 +36,11 @@ int menuIniziale() {
     scanf("%d", &scelta);
 
     while (scelta < 0 || scelta > 2) {
-        printf("Scelta non valida. Inserisci 0,1 o 2: ");
+        printf("Scelta non valida. Inserisci 0,1 o 2: ");//nel momento in cui il giocatore seleziona una scelta non
+        //valida lo avviso tramite printf e lo reindirizzo a scelta, dunque al menù
         scanf("%d", &scelta);
     }
 
 
-    return scelta;
+    return scelta;//tornerà l'opzione selezionata
 }

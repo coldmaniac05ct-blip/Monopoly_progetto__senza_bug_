@@ -10,11 +10,12 @@
 #include <time.h>
 
 
-static int tiraDado() {
+static int tiraDado() {//stabilisce l'ordine di gioco in modo randomico grazie al tiro dei dadi prima che la partita
+    //abbia inizio e avvisa i giocatori dell'ordine stabilito
     return (rand() % 6) + 1;
 }
 
-static void swap(Giocatore *a, Giocatore *b) {
+static void swap(Giocatore *a, Giocatore *b) {//serve ad alternare i turni
     Giocatore tmp = *a;
     *a = *b;
     *b = tmp;
@@ -34,7 +35,8 @@ void determinaOrdine(Giocatore *g, int n) {
         printf("%s tira il dado! è uscito:%d\n", g[i].nome, valori[i]);
     }
 
-    // Gestione pareggi
+    // Gestione pareggi, nel momento in cui avvenga un pareggio (caso raro), allora il gioco
+    // tirerà nuovamente i dadi per entrambi i giocatori finchè nons i stabilisce un ordine di gioco
     int pareggio = 1;
     while (pareggio) {
         pareggio = 0;
@@ -58,7 +60,7 @@ void determinaOrdine(Giocatore *g, int n) {
         }
     }
 
-    // Ordina in ordine decrescente
+    // Ordina in ordine decrescente in base ai valori che sono usciti, quindi 6,5,4,3,2,1, inizierà chi ha il numero più alto
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
             if (valori[j] > valori[i]) {

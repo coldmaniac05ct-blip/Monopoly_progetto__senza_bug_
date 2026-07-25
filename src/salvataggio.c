@@ -18,7 +18,7 @@ void salvaPartita(Giocatore *giocatori, int numGiocatori, Casella *tabellone) {
     // 2) salva ogni giocatore
     for (int i = 0; i < numGiocatori; i++) {
 
-        // salva nome, soldi, ecc.
+        // salva nome, cfu, ecc.
         fwrite(&giocatori[i], sizeof(Giocatore), 1, fp);
 
         // salva posizione come indice

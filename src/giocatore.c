@@ -13,7 +13,7 @@
 
 // Funzione: stampaGiocatore
 
-void stampaGiocatore(Giocatore g) {
+void stampaGiocatore(Giocatore g) {//stampa di dati del giocatore a schermo
     printf("Giocatore: %s\n", g.nome);
     printf("CFU: %d\n", g.cfu);
     printf("Turni in caverna: %d\n", g.turniCaverna);
@@ -23,7 +23,7 @@ void stampaGiocatore(Giocatore g) {
 }
 
 
-// Funzione: creaGiocatori
+// Funzione: creaGiocatori, crea un tot di giocatori in base al numero dato
 
 Giocatore* creaGiocatori(int n) {
 
@@ -46,7 +46,7 @@ Giocatore* creaGiocatori(int n) {
 
 
 
-// Funzione: ordinaGiocatori
+// Funzione: ordinaGiocatori, serve a ordinare in modo randomico i giocatori
 
 void ordinaGiocatori(Giocatore *g, int n) {
 
@@ -86,7 +86,8 @@ void ordinaGiocatori(Giocatore *g, int n) {
         }
     }
 
-    // Ordina in ordine decrescente
+    // Ordina in ordine decrescente tramite bubble sort, serve a stabilire in modo
+    // randomico l'ordine di gioco dei giocatori grazie al tiro del dado
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
             if (valori[j] > valori[i]) {
@@ -109,7 +110,7 @@ void ordinaGiocatori(Giocatore *g, int n) {
 }
 
 
-// Funzione: muoviGiocatore
+// Funzione: muoviGiocatore, sposta il giocatore sul tabellone grazie al tiro del dado e segna la posizione
 
 void muoviGiocatore(Giocatore *g, int passi) {
     for (int i = 0; i < passi; i++) {

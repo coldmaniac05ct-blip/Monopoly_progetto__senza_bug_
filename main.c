@@ -24,11 +24,14 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
     int scelta = menuIniziale();   // la funzione è definita in menu.c, serve a stampare a schermo il menu
     Giocatore *giocatori = NULL;
 
-    if (scelta == 2) {
-        caricaPartita(&giocatori, &n,caricaTabellone("tabellone.txt"));
+    if (scelta == 2) {//il problema maggiore era sistemare il menù di gioco, quindi se la scelta dal menù è 2 il mio compilatore dovrà
+        //occuparsi di caricare una partita e poi inziare il gioco
+        caricaPartita(&giocatori, &n,caricaTabellone("tabellone.txt"));//carica la partita e poi i giocatori
     }
 
-    switch (scelta) {
+    switch (scelta) {//ovviamente il giocatore dovrà avere la possibilità di scegliere tra più opzioni e
+        //nel momento in cui scelga di fare una nuova partita il gioco dovrà
+        //avviarsi e chiedere informazioni, quali il numero di giocatori da registrare e i nomi
 
     case 1:
         printf("Nuova partita!\n");
@@ -49,11 +52,12 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
 
 
         while (n < 2 || n > 4) {
-            printf("Valore non valido. Inserisci 2-4: ");
+            printf("Valore non valido. Inserisci 2-4: ");//se il valore inserito non è consono allora stampo un messaggio di errore
             scanf("%d", &n);
         }
 
-    printf("\nPartita pronta!\n");
+    printf("\nPartita pronta!\n");//informo che la partita è pronta per essere giocata e avvio il gioco partendo
+    //dall'ordine dei giocatori e poi passo al caricamento del tabellone e del menù di gioco
 
 
 
@@ -66,10 +70,9 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
             giocatori[i].posizione = tabellone;
         }
 
-    //qui devo inserire un ciclo per fare tirare i dadi all'infinito e il menù di gioco a gioco già iniziato
-    avviaPartita(giocatori, n, tabellone);
+    avviaPartita(giocatori, n, tabellone);//avvia una partita nuova
 
-    salvaPartita(giocatori, n, tabellone);
+    salvaPartita(giocatori, n, tabellone);//salva la partita in savegame.sav tramite salvataggio.h e dunque salvataggio.c
 
         liberaGiocatori(giocatori);
 
