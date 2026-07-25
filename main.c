@@ -74,7 +74,7 @@ int main(void){//da continuare perchè stampa lo schermo ma non puoi ancora gioc
 
     salvaPartita(giocatori, n, tabellone);//salva la partita in savegame.sav tramite salvataggio.h e dunque salvataggio.c
 
-        liberaGiocatori(giocatori);
+        liberaGiocatori(giocatori);//serve a fare uscire dal menù di gioco e quindi dal programma
 
         return 0;
 
