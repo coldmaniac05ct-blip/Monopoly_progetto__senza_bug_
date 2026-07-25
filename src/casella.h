@@ -32,6 +32,13 @@ struct casella{
     struct casella *prev;
 };
 
+typedef enum{
+    MOUSE,
+    TASTIERA,
+    CAVO_HDMI,
+    PROIETTORE
+}SegnaPosto;
+
 typedef struct casella Casella;
 
 //ho definito cosa fanno le subroutine nel file.c
