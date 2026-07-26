@@ -8,114 +8,166 @@
 #include <stdlib.h>
 #include "turno.h"
 
-static int menuTurno(Giocatore *g) {//uso static int per fare si che il menu di gioco venga ristampato
-    //dopo ogni azione del giocatore, chiedendo rispettivamente ai giocatori cosa vogliono fare
+//questa funzione si occupa di stampare il menù del turno del giocatore e di leggere la scelta che il giocatore seleziona
+//uso static int per fare si che la funzione rimanga privata all'interno del file e non venga esportata altrove, dato che
+//il menù del turno è una cosa interna alla gestione della partita e non deve essere richiamato da altri moduli
+static int menuTurno(Giocatore *g) {
 
-    printf("\n--- Turno di %s ---\n", g->nome);
+    printf("\n--- Turno di %s ---\n", g->nome); //stampo a schermo il nome del giocatore che sta effettuando il turno,
+    //così da rendere chiaro chi deve scegliere cosa fare
+
+
+    //stampo tutte le opzioni disponibili per il giocatore durante il suo turno
+    //ognuna di queste opzioni corrisponde a un'azione che verrà gestita dallo switch-case nella funzione avviaPartita()
     printf("1) Tira i dadi\n");
-    printf("2) Mostra dati dei giocatori\n");//mostra i dati
-    printf("3) Mostra tabellone\n");//mostra le caselle del tabellone
-    printf("4) Mostra carte\n");
+    printf("2) Mostra dati dei giocatori\n");
+    printf("3) Mostra tabellone\n");
+    printf("4) Pesca una carta dal mazzo\n");
     printf("5) Salva partita\n");
     printf("0) Esci dal gioco\n");
     printf("Scelta: ");
 
-    int scelta;//in base alla scelta selezionata la scanf agirà stampando
-    //eventuali dati o comunque attingendo alla funzione corrispondente
+    //dichiaro la variabile scelta che conterrà il numero selezionato dal giocatore
+    //la scanf leggerà il valore inserito da tastiera e lo memorizzerà in scelta
+    int scelta;
     scanf("%d", &scelta);
 
-    return scelta;//il mio compilatore dovrà essere in grado di stampare a schermo la scelta quindi
-    //uso return per fare si che al giocatore torni la scelta selezionata
+    //ritorno la scelta al chiamante, cioè avviaPartita(),
+    //che poi si occuperà di interpretare il numero e di eseguire l'azione corrispondente
+    return scelta;
 }
 
-void avviaPartita(Giocatore *g, int n, Casella *tabellone) {//questa funzione si occupa di avviare la partita
+void avviaPartita(Giocatore *g, int n, Casella *tabellone) {
+    //questa funzione si occupa di avviare la partita vera e propria, cioè il ciclo dei turni dei giocatori
+    //qui dentro avviene tutta la logica del gioco: tiro dei dadi, movimento sul tabellone, pesca delle carte, salvataggio, ecc.
+    //la funzione riceve:
+    // - g: l'array dei giocatori
+    // - n: il numero dei giocatori
+    // - tabellone: la lista circolare delle caselle del Monopoly
 
-    int turno = 0;//inizializzo in modo consono i turni
-    int finePartita = 0;
-    Giocatore * giocatori =NULL;
-    Carta *mazzo = NULL;
+    int turno = 0;//inizializzo il turno a 0, cioè il primo giocatore nell'array
+    //ogni volta che un turno finisce, incremento questa variabile e uso il modulo per tornare al primo giocatore
 
-    while (!finePartita) {
+    int finePartita = 0; //questa variabile serve per capire quando la partita deve terminare
+    //rimane a 0 finché il giocatore non sceglie di uscire dal gioco
 
-        Giocatore *corrente = &g[turno];
+    Carta *mazzo = NULL;//dichiaro il mazzo di carte, inizialmente vuoto
+    //verrà caricato quando il giocatore sceglie di pescare una carta
 
-        int scelta = menuTurno(corrente);
 
-        switch (scelta) {//questa parte è collegata alla scelta del giocatore, faccio uso di uno switch case per fare si
-            //che il giocatore possa scorrere tra le varie opzioni e selezionarle
+    while (!finePartita) {//ciclo principale della partita: finché finePartita rimane 0, il gioco continua
 
-            case 1: {//tiro dei dadi, il tiro dev'essere randomico quindi uso una funzione di tipo rand time che vada da 1 a 6, inizialmente
-                    //l'avrebbe letto come da 0 a 5 ma mettendo il +1 fixa il conto
+        Giocatore *corrente = &g[turno];//corrente è il giocatore che sta effettuando il turno
+        //uso &g[turno] per ottenere il puntatore al giocatore corretto
+
+        int scelta = menuTurno(corrente);//richiamo il menù del turno e memorizzo la scelta del giocatore
+
+
+        switch (scelta) {//in base alla scelta del giocatore, eseguo l'azione corrispondente
+
+        case 1: {//tiro dei dadi
+                //il dado deve generare un numero randomico da 1 a 6
+                //uso rand() % 6 per ottenere un numero da 0 a 5 e aggiungo +1 per ottenere da 1 a 6
+
                 int dado = (rand() % 6) + 1;
+
                 printf("%s tira il dado: %d\n", corrente->nome, dado);
+
+                //muovo il giocatore sul tabellone in base al numero ottenuto dal dado
+                //questa funzione aggiorna la posizione del giocatore e gestisce eventuali effetti della casella
                 muoviGiocatore(corrente, dado);
-                    //attenzione qua non segna su che casella sei, va sistemato!
+
                 break;
             }
 
-            case 2://si occupa di stampare i dati del giocatore, quindi proprietà, cfu ecc ecc
+        case 2://stampa i dati di tutti i giocatori
+            //scorro l'array dei giocatori e stampo le informazioni di ciascuno
+
+
                 for (int i = 0; i < n; i++)
                     stampaGiocatore(g[i]);
                 break;
 
-            case 3://stampa il tabellone a schermo quindi stamperà tutte e 40 le caselle
-            //(40 perchè parte a contare da 0) prendendole in ordine dal file txt
+        case 3://stampa il tabellone
+            //stampo tutte le caselle del tabellone, una per una
+
+
                 stampaTabellone(tabellone);
                 break;
 
-            case 4://si occupa di fare pescare una carta in modo randomico al giocatore
-            //da controllare!
-            Carta *carta = pescaCarta(&mazzo);
-            printf("Hai pescato: %s\n", carta->nome);
-            if (mazzo == NULL) {
-                printf("ERRORE: mazzo non caricato!\n");
+        case 4: {//pesca una carta dal mazzo
+                //se il mazzo non è stato ancora caricato, lo carico ora
+
+                Carta *carta = pescaCarta(&mazzo);
+                //pesco una carta dal mazzo
+
+                if (!carta) { //controllo che la carta esista, se la carta non esiste allora avverto dell'eventuale problema
+                    printf("Il mazzo e' vuoto o non e' stato caricato!\n");
+                    break;
+                }
+
+                //stampo il nome e la descrizione della carta pescata
+                printf("Hai pescato: %s\n", carta->nome);
+                printf("%s\n", carta->descrizione);
+
+                break;
             }
 
-            break;
+            case 5://salva la partita
 
-            case 5:
-            printf("Partita salvata!\n");// salva la partita tramite i file presenti in salvataggio.h,
-            //il quale è ricollegato a salvataggio.c, dovrà puntare anche a su che casella del tabellone si sono fermati a stop partita
-            salvaPartita(giocatori, n, tabellone);
+                printf("Partita salvata!\n");
+                salvaPartita(g, n, tabellone);
                 break;
 
-            case 0:// serve a uscire dal gioco
+            case 0://uscita dal gioco
+
                 printf("Hai scelto di uscire dal gioco.\n");
-                finePartita = 1;
+                finePartita = 1;//imposto il flag per terminare il ciclo
                 break;
 
-            default:
-                printf("Scelta non valida.\n");//nel momento in cui il giocatore scelga di selezionare
-            //un opzione non valida o inesistente, ad esempio 12 dovrò informarlo del
-            //problema tramite un messaggio di errore e reindirizzarlo al menu di gioco
+            default://scelta non valida
+
+                printf("Scelta non valida.\n");
         }
 
-        // passa al giocatore successivo
-        turno = (turno + 1) % n;
+
+        turno = (turno + 1) % n;//passo al giocatore successivo
+        //uso il modulo per tornare al primo giocatore quando arrivo all'ultimo
     }
 }
 
-void caricaPartita(Giocatore **g, int *n, Casella *tab) {//serve a caricare una partita già esistente dal file di slavataggio savegame.sav
-    FILE *fp = fopen("savegame.sav", "rb");
-    if (!fp) return;
+void caricaPartita(Giocatore **g, int *n, Casella *tab) {
+    //questa funzione si occupa di caricare una partita già esistente dal file savegame.sav
+    //il file è binario e contiene:
+    // - il numero dei giocatori
+    // - i nomi dei giocatori
+    // - i loro cfu
+    // - la loro posizione sul tabellone (salvata come indice da 0 a 39)
+    //la funzione deve ricostruire l'array dei giocatori e ricollegare la posizione alla casella corretta
 
-    fread(n, sizeof(int), 1, fp);
+    FILE *fp = fopen("savegame.sav", "rb");//apro il file savegame.sav in modalità lettura binaria
+    if (!fp)//se il file non esiste, non faccio nulla e ritorno
+        return;
 
-    *g = malloc(sizeof(Giocatore) * (*n));
+    fread(n, sizeof(int), 1, fp);//leggo il numero dei giocatori dal file
 
-    for (int i = 0; i < *n; i++) {
+    *g = malloc(sizeof(Giocatore) * (*n));//alloco memoria per l'array dei giocatori
 
-        // carica nome, quindi controlla che stia usando i 31 caratteri utili
-        fread((*g)[i].nome, sizeof(char), LUNGHEZZA_STRINGA, fp);
 
-        // carica cfu
-        fread(&(*g)[i].cfu, sizeof(int), 1, fp);
+    for (int i = 0; i < *n; i++) {//scorro tutti i giocatori e carico i loro dati
 
-        // carica posizione sul tabellone, quindi su che casella si trova il giocatore
+        fread((*g)[i].nome, sizeof(char), LUNGHEZZA_STRINGA, fp);//carico il nome del giocatore, saranno tanti
+        //nomi quanti il numero di giocatori inseriti
+
+
+        fread(&(*g)[i].cfu, sizeof(int), 1, fp);//carico i cfu del giocatore
+
+
         int pos;
-        fread(&pos, sizeof(int), 1, fp);
-        (*g)[i].posizione = casellaDaIndice(tab, pos);
+        fread(&pos, sizeof(int), 1, fp);//carico la posizione salvata come indice numerico
+
+        (*g)[i].posizione = casellaDaIndice(tab, pos);//converto l'indice in un puntatore alla casella corretta del tabellone
     }
 
-    fclose(fp);
+    fclose(fp);//chiudo il file
 }

@@ -50,6 +50,8 @@ void stampaTabellone(Casella *head);
 void testTabellone(Casella *head);
 Casella *casellaDaIndice(Casella *start, int index);
 int indiceCasella(Casella *start, Casella *target);
+Casella* getCasella(Casella* start, int posizione);
+void stampaCasella(Casella* c, int posizione);
 
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__CASELLE_H
