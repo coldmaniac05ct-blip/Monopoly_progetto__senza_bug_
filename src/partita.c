@@ -45,7 +45,7 @@ static int menuTurno(Giocatore *g) {
 // GESTIONE ACQUISTI
 // -----------------------------------------------------------------------------
 
-void gestisciAcquisti(Giocatore *g, Casella *c) {
+void gestisciAcquisti(Giocatore *g, Casella *c) {//da controllare!
 
     printf("\n--- Gestione acquisti ---\n");
     printf("Ti trovi sulla casella: %s, colore=%d, tipo=%d\n", c->nome, c->colore, c->tipo);
