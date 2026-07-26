@@ -33,6 +33,7 @@ Casella* caricaTabellone() {//questa funzione si occupa di caricare il tabellone
         c->scrivania = false;
         c->next = NULL;
         c->prev = NULL;
+        c->proprietario = NULL;
 
         if (!start) {//serve a scorrere il tabellone e quindi le caselle a inizio partita
             start = c;
