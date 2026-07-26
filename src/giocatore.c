@@ -123,3 +123,4 @@ void muoviGiocatore(Giocatore *g, int passi) {
 void liberaGiocatori(Giocatore *g) {
     free(g);
 }
+

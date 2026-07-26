@@ -5,7 +5,7 @@
 
 #ifndef MONOPOLY_PROGETTO__SENZA_BUG__EFFETTI_H
 #define MONOPOLY_PROGETTO__SENZA_BUG__EFFETTI_H
-
+#include <stdio.h>
 //ho definito cosa fanno le subroutine nel file.c
 
 typedef enum {
@@ -31,5 +31,8 @@ typedef struct {
     int quantita;
     TipoCasella tipo_casella;
 } Effetto;
+
+
+int menuEffetti(Effetto *effetti, int numero_effetti);
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__EFFETTI_H

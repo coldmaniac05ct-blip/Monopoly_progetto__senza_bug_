@@ -12,9 +12,26 @@
 #include "tabellone.h"
 #include "salvataggio.h"
 #include "casella.h"
+#include "carta.h"
+#include "effetto.h"
+#include "turno.h"
+
+typedef enum{
+    USCITA,
+    TIRO_DADI,
+    STAMPA_DATI,
+    STAMPA_TABELLONE,
+    PESCA_CARTA,
+    SALVATAGGIO,
+    ACQUISTO_CASELLA,
+    AGISCI,
+}Caso;
 
 void avviaPartita(Giocatore *g, int n, Casella *tabellone);
 void caricaPartita(Giocatore **giocatori, int *numGiocatori, Casella *tabellone);
+Casella* trovaBatcaverna(Casella *tabellone);
+void applicaEffetto(Giocatore *g, Effetto e, Casella *tabellone, Carta **mazzo);
+void EsciBatcaverna(Giocatore *g, Casella *tabellone, Carta **mazzo);
 
 #endif
 

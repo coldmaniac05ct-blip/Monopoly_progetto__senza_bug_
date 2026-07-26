@@ -7,6 +7,7 @@
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__DADI_H
 
+int dadi(int *d1, int *d2);
 int tiraDado(void);//funzione tiraDado per cui:“Esiste una funzione chiamata tiraDado che non prende parametri e restituisce un int.”
 
 //ho definito cosa fanno le subroutine nel file.c

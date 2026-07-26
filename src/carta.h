@@ -33,7 +33,7 @@ void mescolaMazzo(Carta **start_mazzo);
 Carta* pescaCarta(Carta **start_mazzo);
 
 // Inserisce una carta in fondo
-void inserisciInFondo(Carta **start_mazzo, Carta *c);
+void inserisciInFondo(Carta **mazzo, Carta *nuova);
 
 // Debug
 void stampaMazzo(Carta *start_mazzo);

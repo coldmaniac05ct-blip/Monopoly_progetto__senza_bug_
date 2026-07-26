@@ -14,34 +14,28 @@
 //e li inserisce dentro la struct Casella che poi verrà collegata alle altre caselle formando una lista circolare.
 //uso malloc per creare dinamicamente la casella, così posso costruire il tabellone in modo flessibile.
 
+
 Casella *creaCasella(char *nome, int tipo, int colore, int costo) {
 
-    //alloco memoria per una nuova casella
     Casella *c = malloc(sizeof(Casella));
 
-    //se malloc fallisce, ritorno NULL per evitare crash
-    if (!c) return NULL;
-
-    //copio il nome della casella dentro la struct
     strcpy(c->nome, nome);
-
-    //inizializzo i campi principali della casella
     c->tipo = tipo;
     c->colore = colore;
     c->costo = costo;
 
-    //inizializzo i campi relativi alle proprietà (sedie, scrivania, proprietario)
-    //questi valori sono specifici del tuo progetto Monopoly universitario
     c->sedie = 0;
     c->scrivania = false;
+
+    // 🔥 INIZIALIZZAZIONE OBBLIGATORIA
     c->proprietario = NULL;
 
-    //inizializzo i puntatori della lista doppiamente collegata
+    // per la lista circolare
     c->next = NULL;
     c->prev = NULL;
 
-    //ritorno la casella appena creata
     return c;
+
 }
 //questa funzione serve per inserire una nuova casella in coda alla lista circolare del tabellone.
 //la lista è doppiamente collegata (next e prev) e circolare, quindi l’ultima casella punta alla prima
