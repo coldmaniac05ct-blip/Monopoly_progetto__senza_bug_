@@ -135,6 +135,7 @@ void stampaCasella(Casella* c, int posizione) {
 
     printf("Giocatore è sulla casella [%d]: %s Tipo=%d, Colore=%d, Costo=%d\n",
            posizione, c->nome, c->tipo, c->colore, c->costo);
+
 }
 //questa funzione serve per testare il tabellone e verificare che la lista circolare sia stata costruita correttamente.
 //stampo ogni nodo, il suo indirizzo, il next e il prev, così posso vedere se ci sono errori nei collegamenti.

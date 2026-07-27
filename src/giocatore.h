@@ -28,6 +28,7 @@ typedef struct {
     Effetto* effettiDisponibili;
     int numEffettiDisponibili;
     Carta *ultimaCartaPescata;
+    int numero_aule_mense;
 } Giocatore;
 
 void stampaGiocatore(Giocatore g);

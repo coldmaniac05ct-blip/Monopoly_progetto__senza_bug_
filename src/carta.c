@@ -34,87 +34,82 @@
 // - collegare tutte le carte in una lista collegata semplice (head → next → next → ...)
 // - ritornare la testa del mazzo
 
-Carta* caricaMazzo(const char *filename)
-{
-    FILE *fp = fopen("mazzo.txt", "r");//apro il file in modalità lettura
+Carta* caricaMazzo(const char *nomeFile) {
 
-    //se il file non esiste o non riesco ad aprirlo, stampo un messaggio di errore e ritorno NULL
-    //in questo modo evito crash e segnalo chiaramente il problema
+    FILE *fp = fopen(nomeFile, "r");
     if (!fp) {
-        printf("Errore: impossibile aprire %s\n", filename);
+        printf("Errore: impossibile aprire %s\n", nomeFile);
         return NULL;
     }
 
-    Carta *head = NULL; //testa del mazzo, inizialmente vuota
-    Carta *tail = NULL; //ultima carta inserita, mi serve per collegare in coda
+    Carta *mazzo = NULL;
+    Carta *ultimo = NULL;
 
-    //leggo il file finché non arrivo alla fine
-    //uso feof perché il file NON ha separatori particolari, è tutto a righe
-    while (!feof(fp)) {
+    while (1) {
 
-        //alloco memoria per una nuova carta
-        //se malloc fallisce, interrompo subito per evitare problemi
+        int id;
+        int tipoCarta1;
+        char nome[LUNGHEZZA_STRINGA];
+        char descrizione[DESCRIZIONE];
+        int tipoCarta2;
+        int numero_effetti;
+
+        // 1) ID
+        if (fscanf(fp, "%d", &id) != 1)
+            break;
+
+        // 2) TipoCarta (prima volta)
+        if (fscanf(fp, "%d", &tipoCarta1) != 1)
+            break;
+
+        // 3) Nome (riga intera)
+        if (fscanf(fp, " %31[^\n]", nome) != 1)
+            break;
+
+        // 4) Descrizione (riga intera)
+        if (fscanf(fp, " %255[^\n]", descrizione) != 1)
+            break;
+
+        // 5) TipoCarta (seconda volta)
+        if (fscanf(fp, "%d", &tipoCarta2) != 1)
+            break;
+
+        // 6) NumeroEffetti
+        if (fscanf(fp, "%d", &numero_effetti) != 1)
+            break;
+
+        // Alloco la carta
         Carta *c = malloc(sizeof(Carta));
-        if (!c) break;
-
-        //leggo il tipo della carta (intero)
-        if (fscanf(fp, "%d", &c->tipo) != 1) {
-            free(c);
-            break;
-        }
-
-        //leggo il nome della carta: è una riga intera, quindi uso fgets
-        //prima consumo il newline rimasto da fscanf
-        fgetc(fp);
-        fgets(c->nome, sizeof(c->nome), fp);
-        c->nome[strcspn(c->nome, "\n")] = 0; //tolgo il newline finale
-
-        //leggo la descrizione della carta: anche questa è una riga intera
-        fgets(c->descrizione, sizeof(c->descrizione), fp);
-        c->descrizione[strcspn(c->descrizione, "\n")] = 0;
-
-        //il file ripete il tipo della carta, quindi lo leggo di nuovo
-        if (fscanf(fp, "%d", &c->tipo) != 1) {
-            free(c);
-            break;
-        }
-
-        //leggo quanti effetti ha la carta
-        if (fscanf(fp, "%d", &c->numero_effetti) != 1) {
-            free(c);
-            break;
-        }
-
-        //alloco dinamicamente l’array degli effetti
-        //ogni effetto ha 3 parametri: azione, quantità, tipoCasella
-        c->effetti = malloc(sizeof(Effetto) * c->numero_effetti);
-
-        //leggo tutti gli effetti uno per uno
-        for (int i = 0; i < c->numero_effetti; i++) {
-            fscanf(fp, "%d %d %d",
-                   &c->effetti[i].azione,
-                   &c->effetti[i].quantita,
-                   &c->effetti[i].tipo_casella);
-        }
-
-        //inizializzo il puntatore next della carta
         c->next = NULL;
+        snprintf(c->nome, LUNGHEZZA_STRINGA, "%s", nome);
+        snprintf(c->descrizione, DESCRIZIONE, "%s", descrizione);
+        c->tipo = tipoCarta2;
+        c->numero_effetti = numero_effetti;
 
-        //inserisco la carta nel mazzo:
-        //se head è NULL significa che questa è la prima carta
-        if (!head) {
-            head = c;
-            tail = c;
+        // Alloco effetti
+        c->effetti = malloc(sizeof(Effetto) * numero_effetti);
+
+        // 7) Leggo gli effetti
+        for (int i = 0; i < numero_effetti; i++) {
+            int azione, quantita, tipoCasella;
+            fscanf(fp, "%d %d %d", &azione, &quantita, &tipoCasella);
+
+            c->effetti[i].azione = azione;
+            c->effetti[i].quantita = quantita;
+            c->effetti[i].tipo_casella = tipoCasella;
         }
-        else {
-            //altrimenti la collego in coda
-            tail->next = c;
-            tail = c;
-        }
+
+        // Inserisco nel mazzo
+        if (mazzo == NULL)
+            mazzo = c;
+        else
+            ultimo->next = c;
+
+        ultimo = c;
     }
 
-    fclose(fp); //chiudo il file dopo aver finito di leggere
-    return head; //ritorno la testa del mazzo
+    fclose(fp);
+    return mazzo;
 }
 
 
