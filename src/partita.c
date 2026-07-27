@@ -13,29 +13,51 @@
 // ============================================================================
 //  TROVA LA CASELLA BATCAVERNA
 // ============================================================================
-
+// Questa funzione serve per individuare la casella “BatCaverna” all’interno del
+// tabellone. Il tabellone, nel nostro progetto, è una lista circolare di 40
+// caselle: questo significa che non esiste un “ultimo elemento”, perché dopo
+// l’ultima casella si ritorna automaticamente alla prima.
+//
+// Per trovare la BatCaverna, non possiamo usare un indice come in un array,
+// quindi dobbiamo scorrere la lista casella per casella finché non troviamo
+// quella con tipo == BATCAVERNA.
+//
+// Il ciclo do/while è fondamentale: ci permette di visitare TUTTE le caselle
+// della lista circolare e fermarci solo quando torniamo al punto di partenza.
+// Se la BatCaverna non esistesse (cosa impossibile nel tabellone ufficiale),
+// la funzione restituirebbe NULL.
+//
 Casella* trovaBatcaverna(Casella *tabellone) {
 
+    // parto dalla prima casella del tabellone
     Casella *c = tabellone;
 
-    do {
-        if (c->tipo == BATCAVERNA)
+    do {// scorro la lista circolare finché non torno al punto di partenza
+        if (c->tipo == BATCAVERNA) // se la casella corrente è la BatCaverna, la restituisco subito
             return c;
-        c = c->next;
-    } while (c != tabellone);
+        c = c->next;// altrimenti passo alla casella successiva
+    } while (c != tabellone);// condizione che garantisce la circolarità
 
-    return NULL;
+    return NULL;// se non ho trovato nulla (caso teorico), restituisco NULL
 }
 
 
 // ============================================================================
 //  MENÙ DEL TURNO (SPECIFICHE BASE)
 // ============================================================================
+// Questa funzione stampa il menù delle azioni disponibili durante il turno di
+// un giocatore. Le specifiche del progetto BASE stabiliscono che il giocatore
+// può visualizzare informazioni liberamente, ma può tirare i dadi UNA sola
+// volta per turno. Dopo il tiro dei dadi, il turno termina automaticamente.
+//
+// La funzione si limita a stampare le opzioni e leggere la scelta dell’utente.
+// Non esegue nessuna logica: si occupa solo dell’input.
 
 static int menuTurno(Giocatore *g) {
 
-    printf("\n--- Turno di %s ---\n", g->nome);
+    printf("\n--- Turno di %s ---\n", g->nome);// stampo il nome del giocatore per rendere chiaro di chi è il turno
 
+    // elenco delle azioni disponibili secondo le specifiche BASE
     printf("1) Tira i dadi\n");
     printf("2) Mostra dati dei giocatori\n");
     printf("3) Mostra tabellone\n");
@@ -44,37 +66,51 @@ static int menuTurno(Giocatore *g) {
     printf("0) Esci dal gioco\n");
     printf("Scelta: ");
 
-    int scelta;
+    int scelta;// leggo la scelta dell’utente
     scanf("%d", &scelta);
 
-    return scelta;
+    return scelta;// restituisco la scelta al chiamante
 }
 
 // ============================================================================
 //  GESTIONE ACQUISTI (SPECIFICHE BASE)
 // ============================================================================
-
+// Questa funzione gestisce TUTTA la logica di acquisto delle caselle AULA,
+// MENSA e ABBONAMENTO. Le specifiche BASE prevedono che:
+//
+//  - se la casella è libera, il giocatore può comprarla pagando il costo
+//  - se la casella è sua, può acquistare sedie o scrivania
+//  - se la casella è di un altro giocatore, deve pagare il pedaggio
+//
+// La funzione è chiamata automaticamente dopo il movimento del giocatore,
+// quando finisce su una casella acquistabile.
+//
 void gestisciAcquisti(Giocatore *g, Casella *c) {
 
+    // stampo informazioni sulla casella corrente
     printf("\n--- Gestione acquisti ---\n");
     printf("Ti trovi sulla casella: %s (Tipo: %s)\n",
            c->nome, NomiTipo[c->tipo]);
 
     if (c->proprietario == NULL) {
 
+        // ============================
+        // CASO 1: casella libera
+        // ============================
         printf("Questa casella non ha proprietario.\n");
         printf("Vuoi comprarla per %d CFU? (1=si, 0=no): ", c->costo);
 
         int scelta;
         scanf("%d", &scelta);
 
-        if (scelta == 1) {
-            if (g->cfu >= c->costo) {
+        if (scelta == 1) {// se il giocatore decide di comprare
+            if (g->cfu >= c->costo) {// controllo che abbia abbastanza CFU
 
-                g->cfu -= c->costo;
-                c->proprietario = g;
+                g->cfu -= c->costo; // pago il costo della casella
+                c->proprietario = g;// assegno la casella al giocatore
 
-                if (c->tipo == AULA || c->tipo == MENSA)
+                if (c->tipo == AULA || c->tipo == MENSA)// se è un’AULA o una MENSA, incremento il numero
+                    //di proprietà, però non funziona ancora al momento quindi è da controllare
                     g->numero_aule_mense++;
 
                 printf("Hai comprato %s!\n", c->nome);
@@ -88,6 +124,9 @@ void gestisciAcquisti(Giocatore *g, Casella *c) {
 
     if (c->proprietario == g) {
 
+        // ============================
+        // CASO 2: casella del giocatore
+        // ============================
         printf("Questa casella è tua.\n");
         printf("Cosa vuoi comprare?\n");
         printf("1) Una sedia (20 CFU)\n");
@@ -100,7 +139,7 @@ void gestisciAcquisti(Giocatore *g, Casella *c) {
 
         switch (scelta) {
 
-        case 1:
+        case 1:// acquisto di una sedia
             if (g->cfu >= 20) {
                 g->cfu -= 20;
                 c->sedie++;
@@ -110,15 +149,20 @@ void gestisciAcquisti(Giocatore *g, Casella *c) {
             }
             break;
 
-        case 2:
+        case 2:// acquisto della scrivania (solo se non già presente)
             if (c->scrivania == 1) {
                 printf("Hai gia' una scrivania qui.\n");
                 break;
             }
 
-            if (g->cfu >= 50) {
-                g->cfu -= 50;
-                c->scrivania = 1;
+            if (g->cfu >= 50) {//Questo blocco di codice viene eseguito quando il giocatore si trova su una
+                //casella che già possiede (cioè c->proprietario == g) e ha scelto l’opzione:"compra una scrivania"
+                //Prima di tutto, il gioco controlla se il giocatore ha abbastanza CFU per comprare la scrivania.
+//La scrivania costa 50 CFU, quindi se il giocatore ha meno di 50 CFU, l’acquisto non può essere effettuato.
+                g->cfu -= 50;//se il giocatore ha abbastanza cfu e decide di pagare allora toglie 50 cfu dal numero di cfu attuali
+                c->scrivania = 1;//Questa riga aggiorna lo stato della casella: c->scrivania è un campo della struttura Casella
+                //indica se la casella possiede una scrivania oppure no
+                //il valore 1 significa “scrivania presente”, quindi posseduta, prima dell'acquisto sarà 0 dopo l'acquisto 1
                 printf("Hai comprato una scrivania!\n");
             } else {
                 printf("Non hai abbastanza CFU.\n");
@@ -136,8 +180,10 @@ void gestisciAcquisti(Giocatore *g, Casella *c) {
         return;
     }
 
+    //c'è un terzo caso:la casella è stata già comprata da un altor giocatore
     printf("Questa casella appartiene a %s. Devi pagare il pedaggio.\n",
-           c->proprietario->nome);
+           c->proprietario->nome);//se la casella appartiene ad un altro giocatore
+    //faccio pagare il pedaggio in cfu in base al valore della casella
 
     g->cfu -= c->costo;
 }
@@ -145,7 +191,18 @@ void gestisciAcquisti(Giocatore *g, Casella *c) {
 // ============================================================================
 //  APPLICA EFFETTO DELLA CARTA BUG — SPECIFICHE BASE
 // ============================================================================
-
+// Questa funzione applica l’effetto di UNA singola azione contenuta in una
+// carta BUG. Le specifiche BASE stabiliscono che gli effetti devono essere
+// applicati SUBITO, nell’ordine in cui compaiono nella carta.
+//
+// La funzione riceve:
+//  - il giocatore che deve subire l’effetto
+//  - la struttura Effetto che contiene l’azione da eseguire
+//  - il tabellone (necessario per ESCI e movimenti)
+//  - il mazzo (necessario per eventuali carte speciali)
+//
+// Ogni caso dello switch corrisponde a un’azione definita nell’enum Azione.
+//
 void applicaEffetto(Giocatore *g, Effetto e, Casella *tabellone, Carta **mazzo) {
 
     switch (e.azione) {
@@ -203,13 +260,19 @@ void applicaEffetto(Giocatore *g, Effetto e, Casella *tabellone, Carta **mazzo) 
 // ============================================================================
 //  GESTIONE CASELLA DOPO IL MOVIMENTO — SPECIFICHE BASE
 // ============================================================================
-
+// Questa funzione è il cuore della logica del turno: dopo che il giocatore ha
+// tirato i dadi e si è mosso, il gioco deve capire cosa succede nella casella
+// in cui è arrivato.
+//
+// Ogni tipo di casella ha un comportamento diverso, definito dalle specifiche
+// del progetto BASE.
+//
 void gestisciCasella(Giocatore *g, Carta **mazzo, Casella *tabellone) {
 
     Casella *c = g->posizione;
 
     printf("\n--- Gestione casella ---\n");
-    printf("Ti trovi su: %-25s | Tipo: %-15s | Colore: %-15s | Costo: %d\n\n",
+    printf("Ti trovi su: %-25s | Tipo: %-15s | Colore: %-15s | Costo: %d\n\n",// stampo informazioni sulla casella corrente
            c->nome,
            NomiTipo[c->tipo],
            NomiColore[c->colore],
@@ -228,21 +291,23 @@ void gestisciCasella(Giocatore *g, Carta **mazzo, Casella *tabellone) {
         gestisciAcquisti(g, c);
         break;
 
-    case BUG: {
+    case BUG: {// pesco una carta dal mazzo
 
-        printf("Sei finito su una casella BUG! Pesco una carta...\n");
+        printf("Sei finito su una casella BUG! Peschi una carta...\n");
 
         Carta *carta = pescaCarta(mazzo);
 
-        if (!carta) {
+        if (!carta) {//questa parte di codice è utile nel momento in cui il programma non riesca a leggere
+            //correttamente il mazzo perchè risulta esserci un errore nell'allocazione di memoria,
+            //quindi se carta è inesistente il mazzo è vuoto
             printf("Il mazzo e' vuoto!\n");
             break;
         }
 
-        printf("Hai pescato: %s\n", carta->nome);
+        printf("Hai pescato: %s\n", carta->nome);// stampo nome e descrizione della carta
         printf("%s\n", carta->descrizione);
 
-        for (int i = 0; i < carta->numero_effetti; i++) {
+        for (int i = 0; i < carta->numero_effetti; i++) {// applico tutti gli effetti della carta
 
             Effetto e = carta->effetti[i];
 
@@ -339,16 +404,26 @@ void gestisciCasella(Giocatore *g, Carta **mazzo, Casella *tabellone) {
 // ============================================================================
 //  CARICAMENTO PARTITA
 // ============================================================================
-
+//
+// Questa funzione ricostruisce una partita salvata leggendo il file
+// savegame.sav. Vengono ripristinati:
+//
+//  - numero dei giocatori
+//  - nome di ciascun giocatore
+//  - CFU
+//  - posizione sul tabellone
+//
+// Il tabellone deve essere già stato caricato prima di chiamare questa funzione.
+//
 void caricaPartita(Giocatore **g, int *n, Casella *tab) {
 
     FILE *fp = fopen("savegame.sav", "rb");
     if (!fp)
         return;
 
-    fread(n, sizeof(int), 1, fp);
+    fread(n, sizeof(int), 1, fp);// leggo il numero dei giocatori
 
-    *g = malloc(sizeof(Giocatore) * (*n));
+    *g = malloc(sizeof(Giocatore) * (*n));// alloco l’array dinamico dei giocatori
 
     for (int i = 0; i < *n; i++) {
 
@@ -358,7 +433,7 @@ void caricaPartita(Giocatore **g, int *n, Casella *tab) {
         int pos;
         fread(&pos, sizeof(int), 1, fp);
 
-        (*g)[i].posizione = casellaDaIndice(tab, pos);
+        (*g)[i].posizione = casellaDaIndice(tab, pos);// ricostruisco la posizione sul tabellone
     }
 
     fclose(fp);
@@ -367,7 +442,17 @@ void caricaPartita(Giocatore **g, int *n, Casella *tab) {
 // ============================================================================
 //  LOGICA PRINCIPALE DELLA PARTITA — SPECIFICHE BASE
 // ============================================================================
-
+//
+// Questa funzione contiene il ciclo principale del gioco: ogni turno viene
+// gestito qui. Il giocatore può:
+//
+//  - visualizzare informazioni
+//  - tirare i dadi (una sola volta)
+//  - acquistare proprietà
+//  - salvare la partita
+//
+// Dopo il tiro dei dadi, il turno termina automaticamente.
+//
 void avviaPartita(Giocatore *g, int n, Casella *tabellone) {
 
     int turno = 0;
@@ -439,6 +524,6 @@ void avviaPartita(Giocatore *g, int n, Casella *tabellone) {
             }
         }
 
-        turno = (turno + 1) % n;
+        turno = (turno + 1) % n;//passa al turno successivo
     }
 }
