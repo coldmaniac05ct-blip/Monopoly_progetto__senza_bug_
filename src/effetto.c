@@ -7,9 +7,6 @@
 #include "effetto.h"
 #include <stdio.h>
 
-
-//QUA TECNICAMENTE NON CI VA NULLA-RICONTROLLARE LE SLIDES APPENA PUOI
-
 int menuEffetti(Effetto *effetti, int numero_effetti) {
 
     printf("\n--- Scegli un'azione disponibile ---\n");
