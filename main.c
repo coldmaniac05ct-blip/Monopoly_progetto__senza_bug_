@@ -3,7 +3,7 @@
 //
 //Studente:Elisa Alessandra Cataldo (e.cataldo@studenti.unica.it)
 //Matricola:60/84/00112
-//Tipo Progetto:BASE2
+//Tipo Progetto:BASE
 //Username Github:Cold Maniac
 //Github link: https://github.com/coldmaniac05ct-blip/Monopoly_progetto__senza_bug_
 //Necessità:NESSUNA
