@@ -7,7 +7,7 @@
 #include "tabellone.h"
 #include "giocatore.h"
 
-Casella* caricaTabellone() {
+Casella* caricaTabellone() {//si occupa di caricare il tabellone e in caso di problemi di lettura stmampa un messaggio di errore
 
     FILE *fp = fopen(NOME_FILE, "r");
     if (fp == NULL) {
