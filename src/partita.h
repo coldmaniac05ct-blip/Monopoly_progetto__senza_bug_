@@ -21,10 +21,7 @@ typedef enum{
     TIRO_DADI,
     STAMPA_DATI,
     STAMPA_TABELLONE,
-    PESCA_CARTA,
     SALVATAGGIO,
-    ACQUISTO_CASELLA,
-    AGISCI,
 }Caso;
 
 // ============================================================================

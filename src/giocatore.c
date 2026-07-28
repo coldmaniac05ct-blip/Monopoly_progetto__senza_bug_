@@ -16,9 +16,9 @@
 void stampaGiocatore(Giocatore g) {//stampa di dati del giocatore a schermo
     printf("Giocatore: %s\n", g.nome);
     printf("CFU: %d\n", g.cfu);
-    printf("Turni in caverna: %d\n", g.turniCaverna);
+    printf("Turni in caverna: %d\n", g.turni_batcaverna);
     printf("Salta turno: %d\n", g.saltaTurno);
-    printf("Aule/Mense possedute: %d\n", g.numAule);
+    printf("Aule/Mense possedute: %d\n", g.numero_aule_mense);
     printf("\n");
 }
 
@@ -34,9 +34,9 @@ Giocatore* creaGiocatori(int n) {
         scanf("%s", g[i].nome);
 
         g[i].cfu = 3000;
-        g[i].turniCaverna = 0;
+        g[i].turni_batcaverna = 0;
         g[i].saltaTurno = 0;
-        g[i].numAule = 0;
+        g[i].numero_aule_mense = 0;
         g[i].carte = NULL;
         g[i].posizione = NULL; // la imposterai dopo
     }
@@ -116,6 +116,21 @@ void muoviGiocatore(Giocatore *g, int passi) {
     for (int i = 0; i < passi; i++) {
         g->posizione = g->posizione->next;
     }
+}
+
+void eliminaGiocatore(Giocatore **g, int *n, int index) {
+
+    // libera eventuali risorse del giocatore
+    // (carte, effetti, ecc. se servono)
+
+    for (int i = index; i < (*n) - 1; i++) {
+        (*g)[i] = (*g)[i + 1];
+    }
+
+    (*n)--;
+
+    *g = realloc(*g, sizeof(Giocatore) * (*n));
+
 }
 
 

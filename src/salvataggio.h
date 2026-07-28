@@ -10,6 +10,6 @@
 #include  <stdio.h>
 
 void salvaPartita(Giocatore *giocatori, int numGiocatori, Casella *tabellone);
-
+int indiceGiocatore(Giocatore *giocatori, int numGiocatori, Giocatore *g);
 
 #endif //MONOPOLY_PROGETTO__SENZA_BUG__SALVATAGGIO_H
