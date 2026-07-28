@@ -8,6 +8,8 @@
 //Github link: https://github.com/coldmaniac05ct-blip/Monopoly_progetto__senza_bug_
 //Necessità:NESSUNA
 
+//ho 2 account collegati su github per questo risulta che ci abbiano lavorato 2 persone però sono sempre io
+
 //ATTENZIONE:le subroutines sono riportate nei file header appositi
 
 //inizio scrittura codice
