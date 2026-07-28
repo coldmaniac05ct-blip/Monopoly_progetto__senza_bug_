@@ -54,15 +54,14 @@ Casella* caricaTabellone() {
     return start;
 }
 
-void stampaTabellone(Casella *start) {
+void stampaTabellone(Casella *start) {//stampa a schermo il tabellone, quindi l'array
+    //deve essere in grado di leggere tutti i dati necessari
 
-    //array dei nomi dei tipi (enum TipoCasella)
     char *nomiTipo[] = {
         "NESSUNO", "AULA", "MENSA", "PARCHEGGIO", "ABBONAMENTO",
         "VIA", "BUG", "VAI_BATCAVERNA", "BATCAVERNA"
     };
 
-    //array dei nomi dei colori (enum ColoreCasella)
     char *nomiColore[] = {
         "NESSUN_COLORE", "MARRONE", "CELESTE", "FUCSIA", "ARANCIONE",
         "ROSSO", "GIALLO", "VERDE", "BLU"
@@ -74,12 +73,24 @@ void stampaTabellone(Casella *start) {
     printf("\n--- TABELLONE ---\n");
 
     do {
+
+        // PRIMA RIGA (breve)
         printf("[%2d] Nome: %-25s | Tipo: %-15s | Colore: %-15s | Costo: %d\n",
                i,
                curr->nome,
-               nomiTipo[curr->tipo],      //  stampa il tipo
-               nomiColore[curr->colore],  // stampa il colore
+               nomiTipo[curr->tipo],
+               nomiColore[curr->colore],
                curr->costo);
+
+        // SECONDA RIGA (proprietario)
+        if (curr->proprietario != NULL)
+            printf("     Proprietario: %-10s | Segnaposto: %s\n",
+                   curr->proprietario->nome,
+                   NomiSegnaPosto[curr->proprietario->segna_posto]);
+        else
+            printf("     Proprietario: nessuno | Segnaposto: -\n");
+
+        printf("\n");
 
         curr = curr->next;
         i++;

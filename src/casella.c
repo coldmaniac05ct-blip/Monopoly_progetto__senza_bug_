@@ -14,6 +14,12 @@
 //e li inserisce dentro la struct Casella che poi verrà collegata alle altre caselle formando una lista circolare.
 //uso malloc per creare dinamicamente la casella, così posso costruire il tabellone in modo flessibile.
 
+const char *NomiSegnaPosto[4] = {
+    "MOUSE",
+    "TASTIERA",
+    "CAVO_HDMI",
+    "PROIETTORE"
+}; //array dei nomi dei segnaposti
 
 Casella *creaCasella(char *nome, int tipo, int colore, int costo) {
 

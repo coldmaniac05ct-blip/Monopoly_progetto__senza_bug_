@@ -13,12 +13,13 @@
 
 // Funzione: stampaGiocatore
 
-void stampaGiocatore(Giocatore g) {//stampa di dati del giocatore a schermo
+void stampaGiocatore(Giocatore g) {
     printf("Giocatore: %s\n", g.nome);
     printf("CFU: %d\n", g.cfu);
     printf("Turni in caverna: %d\n", g.turni_batcaverna);
     printf("Salta turno: %d\n", g.saltaTurno);
     printf("Aule/Mense possedute: %d\n", g.numero_aule_mense);
+    printf("Segnaposto: %s\n", NomiSegnaPosto[g.segna_posto]);
     printf("\n");
 }
 
@@ -33,18 +34,37 @@ Giocatore* creaGiocatori(int n) {
         printf("Inserisci il nome del giocatore %d: ", i + 1);
         scanf("%s", g[i].nome);
 
+        // MOSTRA LE OPZIONI DEL SEGNAPOSTO
+        printf("\n--- Scegli il tuo segnaposto ---\n");
+        for (int s = 0; s < 4; s++) {
+            printf("%d) %s\n", s + 1, NomiSegnaPosto[s]);
+        }
+
+        int scelta;
+        do {
+            printf("Scelta (1-4): ");
+            scanf("%d", &scelta);
+
+            if (scelta < 1 || scelta > 4)
+                printf("Scelta non valida, riprova.\n");
+
+        } while (scelta < 1 || scelta > 4);
+
+        g[i].segna_posto = scelta - 1;   // enum corretto
+
+        printf("Hai scelto: %s\n\n", NomiSegnaPosto[g[i].segna_posto]);
+
+        // inizializzazione campi
         g[i].cfu = 3000;
         g[i].turni_batcaverna = 0;
         g[i].saltaTurno = 0;
         g[i].numero_aule_mense = 0;
         g[i].carte = NULL;
-        g[i].posizione = NULL; // la imposterai dopo
+        g[i].posizione = NULL;
     }
 
     return g;
 }
-
-
 
 // Funzione: ordinaGiocatori, serve a ordinare in modo randomico i giocatori
 

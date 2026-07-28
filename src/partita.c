@@ -426,6 +426,30 @@ void caricaPartita(Giocatore **g, int *n, Casella *tabellone) {
     fclose(fp);
     printf("Partita caricata correttamente!\n");
 }
+//SCELTA SEGNA POSTO
+void scegliSegnaPosto(Giocatore *g) {
+
+    printf("\n--- Scegli il tuo segnaposto ---\n");
+
+    for (int i = 0; i < 4; i++) {
+        printf("%d) %s\n", i + 1, NomiSegnaPosto[i]);
+    }
+
+    int scelta;
+
+    do {
+        printf("Scegli un numero da 1-4: ");
+        scanf("%d", &scelta);
+
+        if (scelta < 1 || scelta > 4)
+            printf("Scelta non valida, riprova.\n");
+
+    } while (scelta < 1 || scelta > 4);
+
+    g->segna_posto = (SegnaPosto)(scelta - 1);
+
+    printf("Hai scelto: %s\n", NomiSegnaPosto[g->segna_posto]);
+}
 
 //
 // ============================================================================

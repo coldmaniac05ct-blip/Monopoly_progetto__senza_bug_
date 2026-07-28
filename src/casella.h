@@ -41,6 +41,8 @@ typedef enum{
 
 typedef struct casella Casella;
 
+extern const char *NomiSegnaPosto[4];//serve a poter accedere ai nomi dei segnaposti in altri file
+
 //ho definito cosa fanno le subroutine nel file.c
 
 Casella *creaCasella(char *nome, int tipo, int colore, int costo);

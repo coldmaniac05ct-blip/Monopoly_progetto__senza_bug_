@@ -46,6 +46,7 @@ void caricaPartita(Giocatore **giocatori, int *numGiocatori, Casella *tabellone)
 Casella* trovaBatcaverna(Casella *tabellone);
 void applicaEffetto(Giocatore *g, Effetto e, Casella *tabellone, Carta **mazzo);
 void EsciBatcaverna(Giocatore *g, Casella *tabellone, Carta **mazzo);
+void scegliSegnaPosto(Giocatore *g);
 
 #endif
 
