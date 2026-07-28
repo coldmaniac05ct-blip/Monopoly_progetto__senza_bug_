@@ -33,7 +33,7 @@ Casella *creaCasella(char *nome, int tipo, int colore, int costo) {
     c->sedie = 0;
     c->scrivania = false;
 
-    // 🔥 INIZIALIZZAZIONE OBBLIGATORIA
+    // INIZIALIZZAZIONE OBBLIGATORIA
     c->proprietario = NULL;
 
     // per la lista circolare
