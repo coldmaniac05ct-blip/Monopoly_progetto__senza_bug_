@@ -77,8 +77,8 @@ void stampaTabellone(Casella *start) {
         printf("[%2d] Nome: %-25s | Tipo: %-15s | Colore: %-15s | Costo: %d\n",
                i,
                curr->nome,
-               nomiTipo[curr->tipo],      // <-- stampa il nome dell’enum
-               nomiColore[curr->colore],  // <-- stampa il nome dell’enum
+               nomiTipo[curr->tipo],      //  stampa il tipo
+               nomiColore[curr->colore],  // stampa il colore
                curr->costo);
 
         curr = curr->next;
